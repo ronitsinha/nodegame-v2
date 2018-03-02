@@ -86,6 +86,7 @@ function setEventHandlers () {
 	socket.on ('delete player', onDeletePlayer);
 	socket.on ('rabbit player', onRabbitPlayer);
 	socket.on ('attack player', onAttackPlayer);
+	socket.on ('score player', onScorePlayer);
 }
 
 var onKeyDown = (e) => { 
@@ -145,6 +146,11 @@ var onAttackPlayer = (data) => {
 	remote_players[data.id].setImage (eval(remote_players[data.id].sprite_name + '_attack' + remote_players[data.id].getXscale()));
 }
 
+var onScorePlayer = (data) => {
+	remote_players[data.id].score += data.amount;
+	// TODO: sort remote players by score (also include local player to display on leaderboard)
+}
+
 var onDeletePlayer = (data) => {
 	sprites.splice (sprites.indexOf(remote_players[data.id]), 1);
 	delete remote_players[data.id];
@@ -171,10 +177,20 @@ function update () {
 
 			if (!dead) {
 				if (local_player.getBoundingBox().overlapArea(remote_players[id].getBoundingBox()) > 2000 && remote_players[id].attacking) {
-					console.log ('I\'m being attacked');
-					document.getElementById('deathmenu').style.display = 'block';
-					socket.emit ('delete player');
-					dead = true;
+					if (remote_players[id].attacking) {
+						console.log ('I\'m being attacked');
+						document.getElementById('deathmenu').style.display = 'block';
+						socket.emit ('delete player');
+						dead = true;
+					} else if (local_player.attacking) {
+						if (remote_players[id].sprite_name === 'rabbit') {
+							local_player.score += 50;
+							socket.emit ('score player', {amount : 50});
+						} else {
+							local_player.score += 10;
+							socket.emit ('score player', {amount : 10});
+						}
+					}
 				}
 			}
 		}

@@ -21,6 +21,7 @@ io.on ('connection', function (socket) {
 	socket.on ('disconnect', onClientDisconnect);
 	socket.on ('delete player', onPlayerDelete);
 	socket.on ('attack player', onPlayerAttack);
+	socket.on ('score player', onPlayerScore)
 });
 
 function onClientDisconnect (data) {
@@ -30,6 +31,7 @@ function onClientDisconnect (data) {
 			isThereRabbit = false;
 		}
 		delete clients[this.id];
+		// if the player that disconnected was the rabbit, randomly pick a new player to be a rabbit
 		if (!isThereRabbit) {
 			var rab = pickRandomProperty (clients);
 			if (rab) {
@@ -92,6 +94,11 @@ function onPlayerAttack (data) {
 	this.broadcast.emit ('attack player', {id : this.id});
 }
 
+function onPlayerScore (data) {
+	clients[this.id].score += data.amount;
+	this.broadcast.emit ('score player', {amount : data.amount});
+}
+
 function pickRandomProperty(obj) {
     var result;
     var count = 0;
@@ -101,6 +108,7 @@ function pickRandomProperty(obj) {
     return result;
 }
 
+// get 'length' of object
 var size = (obj) => {
     var size = 0, key;
     for (key in obj) {

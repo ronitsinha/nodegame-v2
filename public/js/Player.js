@@ -103,8 +103,8 @@ function Player (startX, startY, startImg, frameWidth, rabbit) {
 	this.attackKey = 69;
 	this.attacking = false;
 	this.prevKeyCode;
-	this.username = 'Rando';
-	this.score;
+	this.username;
+	this.score = 0;
 
 	// X_SCALE:
 	// 0 - facing left
