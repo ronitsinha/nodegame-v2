@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		canvas {
+			display: block;
+			overflow: hidden;
+		}
+		#deathmenu {
+			/*By default, the death menu will be invisible*/
+			display: none;
+
+			z-index: 1;
+			position: absolute;
+			text-align: center;
+			width: 100%;
+			top: 50%;
+		}
+	</style>
+	<title>Node Game</title>
+</head>
+<body>
+	<div id="deathmenu">
+		<h1>You died!</h1>
+		<button onclick="gameRestart()">Restart?</button>
+	</div>	
+
+	<canvas id="game" width="400" height="400"></canvas>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="js/requestAnimationFrame.js"></script>
+	<script src="js/Keys.js"></script>
+	<script src="js/Rectangle.js"></script>
+	<script src="js/Camera.js"></script>
+	<script src="js/Sprite.js"></script>
+	<script src="js/Player.js"></script>
+	<script src="js/background.js"></script>
+	<script src="js/game.js"></script>
+	<script>
+		init ();
+		frame ();
+	</script>
+</body>
+</html>
