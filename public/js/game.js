@@ -58,6 +58,7 @@ function init () {
 
 	local_player = new Player (startX, startY, fox_idle1, 64, false);
 	local_player.username = prompt ('Username:\n') || defaultUsername;
+	document.getElementById('leaderboard').style.display = 'block';
 	remote_players = {};
 	sprites = [];
 	sprites.push (local_player);

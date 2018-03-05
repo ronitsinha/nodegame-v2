@@ -48,7 +48,7 @@ Client.prototype.getRabbit = function() {
 };
 
 Client.prototype.getName = function() {
-	return name;
+	return this.name;
 };
 
 Client.prototype.setPos = function(nx, ny) {
@@ -63,3 +63,5 @@ Client.prototype.setRabbit = function(nr) {
 Client.prototype.setName = function (nname) {
 	this.name = nname;
 }
+
+exports.Client = Client;
